@@ -75,6 +75,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>chess-portal-rest</finalName>
 	</build>
 
 </project>
