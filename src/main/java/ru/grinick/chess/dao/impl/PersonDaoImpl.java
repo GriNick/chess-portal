@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,27 +20,29 @@ public class PersonDaoImpl implements PersonDao {
 	private EntityManager em;
 
 	@Override
-	public void add(Person person) {
-		// TODO Auto-generated method stub
-		// em.persist(person);
+	@Transactional(isolation=Isolation.SERIALIZABLE)
+	public Person add(Person person) {
+		em.persist(person);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return person;
 
 	}
 
 	@Override
 	public List<Person> getAllPersons() {
-		// TODO Auto-generated method stub
-		// CriteriaQuery<Person> criteriaQuery =
-		// em.getCriteriaBuilder().createQuery(Person.class);
-		// @SuppressWarnings("unused")
-		// Root<Person> root = criteriaQuery.from(Person.class);
-		// criteriaQuery.return em.createQuery(criteriaQuery).getResultList();
-		return null;
+		CriteriaQuery<Person> criteriaQuery = em.getCriteriaBuilder().createQuery(Person.class);
+		@SuppressWarnings("unused")
+		Root<Person> root = criteriaQuery.from(Person.class);
+		return em.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
-	@Transactional(isolation = Isolation.READ_UNCOMMITTED)
 	public Person getPersonById(Integer personId) {
-		// TODO Auto-generated method stub
 		Person result = em.find(Person.class, personId);
 		return result;
 	}
