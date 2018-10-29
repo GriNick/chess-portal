@@ -11,33 +11,32 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import ru.grinick.chess.dao.PersonDao;
-import ru.grinick.chess.model.Person;
+import ru.grinick.chess.dao.PlayerDao;
+import ru.grinick.chess.model.Player;
 
 @Component
-public class PersonDaoImpl implements PersonDao {
+public class PlayerDaoImpl implements PlayerDao {
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
 	@Transactional(isolation=Isolation.SERIALIZABLE)
-	public Person add(Person person) {
-		em.persist(person);
-		return person;
-
+	public Player add(Player player) {
+		em.persist(player);
+		return player;
 	}
 
 	@Override
-	public List<Person> getAllPersons() {
-		CriteriaQuery<Person> criteriaQuery = em.getCriteriaBuilder().createQuery(Person.class);
+	public List<Player> getAllPlayers() {
+		CriteriaQuery<Player> criteriaQuery = em.getCriteriaBuilder().createQuery(Player.class);
 		@SuppressWarnings("unused")
-		Root<Person> root = criteriaQuery.from(Person.class);
+		Root<Player> root = criteriaQuery.from(Player.class);
 		return em.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
-	public Person getPersonById(Integer personId) {
-		Person result = em.find(Person.class, personId);
+	public Player getPlayerById(Integer playerId) {
+		Player result = em.find(Player.class, playerId);
 		return result;
 	}
 

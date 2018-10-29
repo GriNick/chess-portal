@@ -18,16 +18,11 @@ import ru.grinick.chess.services.PersonService;
  
 @RestController
 @CrossOrigin
-public class MainController {
+public class PersonController {
 	
 	@Autowired
 	PersonService personService;
- 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main() {
-    	return "Welcome to my rest service";
-    }
-    
+  
     @RequestMapping(value = "/person", method = RequestMethod.GET)
     public List<Person> getAllPersons() {
     	return personService.getAllPersons();
@@ -38,7 +33,7 @@ public class MainController {
     	return personService.getPersonById(personId);
     }
     
-    @RequestMapping(value = "/person/", method = RequestMethod.POST)
+    @RequestMapping(value = "/person", method = RequestMethod.POST)
     public Person addPerson(@RequestBody Person person) {
     	return personService.addPerson(person);
     }
